@@ -11,7 +11,7 @@ namespace HZMStorage.Helper
     
     
     
-
+        //test
         public SessionUser() { }
         public SessionUser(string userId, string userPwd, string userName, int UserCode) { }
 
