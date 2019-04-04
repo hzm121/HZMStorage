@@ -20,5 +20,6 @@ namespace HZMStorage.Helper
         public string UserId { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string UserName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string UserPwd { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        //test4
     }
 }
