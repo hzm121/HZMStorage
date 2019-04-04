@@ -8,6 +8,9 @@ namespace HZMStorage.Helper
 {
     public class SessionUser : ISessionUser
     {
+    
+    
+    
 
         public SessionUser() { }
         public SessionUser(string userId, string userPwd, string userName, int UserCode) { }
