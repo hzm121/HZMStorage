@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GreenWhale.GasSystem.Models.Helper;
+using GreenWhale.GasSystem.Models.Interface;
+using GreenWhale.JWTAuthorize;
+using GreenWhale.JWTAuthorize.Internal;
 using HZMStorage.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -49,6 +54,14 @@ namespace HZMStorage
             {
                 option.UseSqlServer(configuration["connectionStrings:DefaultConnection"]);
             });
+
+            services.AddTransient<IRequestSession, RequestSession>();
+            services.AddJwt(this.configuration["AppSettings:SecurityKey"]);
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<ISignInHelper, SignInHelper>();
+            services.AddSignInHelper(s => {
+                s.SecurityKey = this.configuration["AppSettings:SecurityKey"];
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -74,6 +87,7 @@ namespace HZMStorage
                     name: "api",
                     template: "api/[controller]");
             });
+
         }
     }
 }

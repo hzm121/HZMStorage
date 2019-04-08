@@ -1,7 +1,8 @@
-﻿using GreenWhale.JWTAuthorize.Internal;
-using HZMStorage.Helper;
+﻿using GreenWhale.GasSystem.Models.Model;
+using GreenWhale.JWTAuthorize.Internal;
 using HZMStorage.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +16,16 @@ namespace HZMStorage.Controllers.Api
     {
         private readonly ApplicationJooWMSDbContext dbContext;
         private readonly ISignInHelper signInHelper;
+        private readonly IConfiguration configuration;
 
-        public ApiAuthorizeController(ApplicationJooWMSDbContext applicationJooWMSDbContext)
+
+        public ApiAuthorizeController(IConfiguration configuration,ApplicationJooWMSDbContext applicationJooWMSDbContext,ISignInHelper signInHelper)
         {
             this.dbContext = applicationJooWMSDbContext;
+            this.signInHelper = signInHelper;
         }
         [HttpPost("CheckUserInfo")]
-        public Result<object> CheckUserInfo([FromForm]Admin admin)
+        public Models.Result<object> CheckUserInfo([FromForm]Admin admin)
         {
             var userName = admin.UserName;
             var password = admin.PassWord;
@@ -33,23 +37,26 @@ namespace HZMStorage.Controllers.Api
                 {
                     if (password == userInfo_db.PassWord)
                     {
-                        var token = signInHelper.AccessToken(new SessionUser() { UserId = userInfo_db.Id.ToString(), UserAccount = userName, UserPwd = userInfo_db.PassWord, UserName = userInfo_db.UserName, UserCode = Convert.ToInt32(userInfo_db.UserCode) }, null);
 
-                        return new Result<object>(true, "登录成功", token);
+
+                        var  sessionUser =  new SessionUser(userInfo_db.Id.ToString(), userInfo_db.UserName, userInfo_db.PassWord, userInfo_db.UserName, 0) ;
+                        var token = signInHelper.AccessToken(sessionUser,null);
+
+                        return new Models.Result<object>(true, "登录成功", token);
                     }
                     else
                     {
-                        return new Result<object>(false, "账户密码错误!");
+                        return new Models.Result<object>(false, "账户密码错误!");
                     }
                 }
                 else
                 {
-                    return new Result<object>(false, "不存在该账号!");
+                    return new Models.Result<object>(false, "不存在该账号!");
                 }
             }
             catch (Exception e)
             {
-                return new Result<object>(false, e.Message);
+                return new Models.Result<object>(false, e.Message);
             }
         }
     }
