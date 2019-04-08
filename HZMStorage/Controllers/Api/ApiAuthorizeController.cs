@@ -37,11 +37,7 @@ namespace HZMStorage.Controllers.Api
                 {
                     if (password == userInfo_db.PassWord)
                     {
-
-
-                        var  sessionUser =  new SessionUser(userInfo_db.Id.ToString(), userInfo_db.UserName, userInfo_db.PassWord, userInfo_db.UserName, 0) ;
-                        var token = signInHelper.AccessToken(sessionUser,null);
-
+                        var token = signInHelper.AccessToken(new SessionUser { UserId = userInfo_db.Id.ToString(), UserAccount = userInfo_db.UserName, UserPwd = userInfo_db.PassWord, UserName = userInfo_db.UserName, UserCode = 0 },null);
                         return new Models.Result<object>(true, "登录成功", token);
                     }
                     else
