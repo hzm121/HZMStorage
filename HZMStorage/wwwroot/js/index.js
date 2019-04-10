@@ -38,7 +38,7 @@ function login() {
             alert(res.Message);
             //把token存在session中
             sessionStorage.setItem("token", res.Data);
-            //window.location.href = "/home/welcome"
+            window.location.href = "/home/welcome"
             //$.ajax({
             //    async: false,
             //    type: "GET",
