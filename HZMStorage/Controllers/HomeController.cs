@@ -17,7 +17,6 @@ namespace HZMStorage.Controllers
         }
         public IActionResult Index()
         {
-            //test2
             return View();
         }
 
