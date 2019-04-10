@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HZMStorage.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HZMStorage.Controllers
 {
@@ -15,9 +16,23 @@ namespace HZMStorage.Controllers
         {
             this.dbContext = applicationJooWMSDbContext;
         }
+        /// <summary>
+        /// 登录界面
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
+            
             return View();
+        }
+
+        /// <summary>
+        /// 后台欢迎界面
+        /// </summary>
+        /// <returns></returns>
+        public  IActionResult Welcome()
+        {
+            return  View();
         }
 
     }
